@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery-zTree</title>
+	<link rel="stylesheet" href="/public/css/reset.min.css">
+	<link rel="stylesheet" href="/public/css/zTreeStyle.css">
+</head>
+
+<body>
+	<ul class="ztree" id="tree1"></ul>
+
+	<script src="/public/js/jquery.min.js"></script>
+	<script src="/public/js/jquery.ztree.all.min.js"></script>
+	<script>
+		// 读取到层级数据
+		$.ajax({
+			url: './data.json',
+			method: 'get',
+			success: result => {
+				// 初始化zTree
+				let $tree1 = $('#tree1');
+				$.fn.zTree.init($tree1, {}, result);
+			}
+		});
+	</script>
+</body>
+
+</html>

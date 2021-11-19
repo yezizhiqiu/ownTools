@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>zTree树形结构菜单</title>
+	<!-- import css -->
+	<link rel="stylesheet" href="/public/css/reset.min.css">
+	<style>
+		* {
+			-webkit-user-select: none;
+		}
+
+		.container {
+			box-sizing: border-box;
+			margin: 20px auto;
+			padding: 10px;
+			width: 600px;
+			border: 1px dashed #AAA;
+		}
+
+		.level {
+			display: none;
+			font-size: 14px;
+			margin-left: 10px;
+		}
+
+		.level.level0 {
+			display: block;
+			margin-left: 0;
+		}
+
+		.level li {
+			position: relative;
+			padding-left: 15px;
+			line-height: 30px;
+		}
+
+		.level li .icon {
+			position: absolute;
+			left: 0;
+			top: 9px;
+			box-sizing: border-box;
+			width: 12px;
+			height: 12px;
+			line-height: 8px;
+			text-align: center;
+			border: 1px solid #AAA;
+			background: #EEE;
+			cursor: pointer;
+		}
+
+		.level li .icon:after {
+			display: block;
+			content: "+";
+			font-size: 12px;
+			font-style: normal;
+		}
+
+		.level li .icon.open:after {
+			content: "-";
+		}
+
+		.level li .title {
+			color: #000;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<ul class="level level0" id="tree1"></ul>
+	</div>
+
+	<div class="container">
+		<ul class="level level0" id="tree2"></ul>
+	</div>
+
+	<!-- import js -->
+	<script src="/public/js/jquery.js"></script>
+	<script src="/own/js/ztree_plugins.js"></script>
+	<script>
+		let $tree1 = $('#tree1')
+		let treeBind = function treeBind(data) {
+			let str = ``,
+				count = 0;
+			data.forEach(item => {
+				count++
+				str += `<li>
+					<a class="title" href="#">${item.name}</a>
+					${item.children ? `
+						<em class="icon ${item.open ? 'open' : ''}"></em>
+						<ul class="level level${count}" style="display: ${item.open ? 'block' : 'none'};">
+							${treeBind(item.children)}
+						</ul>
+					`: ``}
+					</li>`
+			});
+			count--
+			return str;
+		}
+		$.ajax({
+			url: './data.json',
+			method: 'get',
+			success: result => {
+				let str = treeBind(result);
+				$tree1.html(str);
+			}
+		})
+		// 2.实现无限极展开（事件委托：可以处理动态绑定的元素）
+		$tree1.on('click', function (ev) {
+			let target = ev.target
+			if (target.tagName === 'EM') {
+				let $target = $(target),
+					$next = $target.next('ul')
+				$target.toggleClass('open');
+				$next.stop().slideToggle(200)
+			}
+		})
+
+		$.ajax({
+			url: './data.json',
+			method: 'get',
+			success: result => {
+				$('#tree2').ztree(result);
+			}
+		});
+
+	</script>
+</body>
+
+</html>

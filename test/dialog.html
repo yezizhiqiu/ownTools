@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>模态框</title>
+	<!-- IMPORT CSS -->
+	<link rel="stylesheet" href="/public/css/reset.min.css">
+
+</head>
+
+<body>
+	<button id="btn">点我有惊喜</button>
+	<script src="/own/js/dialog-plugin.js"></script>
+	<script>
+		btn.onclick = function () {
+			alert(`
+				用户名：<input type='text' id='AA'/>
+				<br>
+				密码：<input type='password' id='BB'/>
+			`, {
+				title: '用户登录',
+				confirm: true,
+				handled: lx => {
+					if (lx !== 'CONFIRM') return;
+					let AA = document.getElementById('AA');
+					let BB = document.getElementById('BB');
+					console.log(AA.value, BB.value);
+				}
+			});
+		};
+	</script>
+</body>
+
+</html>
