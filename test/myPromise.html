@@ -13,16 +13,45 @@
 	<!-- IMPORT JS -->
 	<script src="/own/js/myPromise.js"></script>
 	<script>
+		console.log('1');
 		new MyPromise1((resolve, reject) => {
-			setTimeout(_ => {
-				resolve(100);
-				// reject('ERROR');
-			}, 1000);
+			console.log('create mypromise1');
+			resolve('MyPromise1');
+			reject('ERROR');
 		}).then(result => {
 			console.log(result);
 		}, reason => { console.log(reason); })
+		console.log('2');
 
-		// MyPromise.all([...]).then();
+		new MyPromise2((resolve, reject) => {
+			//resolve(100)
+			reject('ERROR');
+		}).then(result => {
+			console.log(result);
+			return 200;
+		}, reason => {
+			console.log(reason);
+			return 'OK'
+		}).then(result => {
+			console.log(result);
+		}, reason => {
+			console.log(reason);
+		})
+		console.log('3');
+		/* new MyPromise3((resolve, reject) => {
+			setTimeout(_ => {
+				// resolve(100);
+				reject('ERROR');
+			}, 1000);
+		}).catch(reason => {
+			// return Promise.reject(reason);
+		}).then(result => {
+			return result;
+		}).then(result => {
+			console.log(result);
+		});
+		console.log('4'); */
+		// MyPromise3.all([...]).then();
 	</script>
 </body>
 

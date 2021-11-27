@@ -24,3 +24,11 @@
 ## EventBus ##
 + 基于原生js的事件委托
 
+## myPromise.js ##
++ 基于es6 class语法实现promise
+
+## _ajax.js ##
++ 基于promise的封装ajax 参照axios
+
+
+
